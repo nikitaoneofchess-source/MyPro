@@ -1,0 +1,31 @@
+{
+  "name": "project-root",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "date-fns": "^4.4.0",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.8.5",
+    "grammy": "^1.44.0",
+    "mongodb": "^7.3.0",
+    "mongoose": "^9.7.1",
+    "node-cron": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "@types/node-cron": "^3.0.11",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}
