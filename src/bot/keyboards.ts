@@ -4,7 +4,7 @@ import { Keyboard, InlineKeyboard } from 'grammy';
 export const coachKeyboard = new Keyboard()
   .text('🗓 Розклад на сьогодні').text('👥 Мої клієнти')
   .row()
-  .text('🔗 Моє посилання').webApp('🖥 Особистий кабінет', 'https://your-webapp-url.com')
+  .text('🔗 Моє посилання').webApp('🖥 Особистий кабінет', 'https://my-pro-frontend-eight.vercel.app/')
   .resized();
 
 // Клавіатура для клієнта
