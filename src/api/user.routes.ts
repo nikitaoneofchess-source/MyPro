@@ -1,21 +1,28 @@
-import { FastifyInstance } from 'fastify';
 import { User } from '../models/User';
 
-export async function userRoutes(fastify: FastifyInstance) {
-  fastify.get('/users/:tgId', async (request, reply) => {
-    const { tgId } = request.params as { tgId: string };
-    const user = await User.findOne({ tgId: Number(tgId) });
-    if (!user) return reply.status(404).send({ error: 'User not found' });
-    return user;
-  });
+import { verifyTelegramData } from '../services/auth.service';
 
-  fastify.get('/clients/:coachTgId', async (request, reply) => {
-    const { coachTgId } = request.params as { coachTgId: string };
-    const coach = await User.findOne({ tgId: Number(coachTgId), role: 'coach' });
-    
-    if (!coach) return reply.status(404).send({ error: 'Coach not found' });
+export async function userRoutes(fastify: any) {
+  fastify.get('/clients', async (request: any, reply: any) => {
+    const authHeader = request.headers['authorization'];
+    if (!authHeader) return reply.status(401).send({ error: 'Unauthorized' });
 
-    const clients = await User.find({ coachId: coach._id, role: 'client' });
-    return { clients };
+    const initData = authHeader.replace('twa ', '');
+    const { isValid, user } = verifyTelegramData(initData);
+
+    if (!isValid) return reply.status(403).send({ error: 'Invalid data' });
+
+    // ТЕПЕР МИ ВИКОРИСТОВУЄМО ID ПЕРЕВІРЕНОГО КОРИСТУВАЧА
+    const coachTgId = user.id;
+
+    try {
+      const coach = await User.findOne({ tgId: coachTgId, role: 'coach' });
+      if (!coach) return reply.status(404).send({ error: 'Coach not found' });
+
+      const clients = await User.find({ coachId: coach._id, role: 'client' });
+      return { clients };
+    } catch (error) {
+      return reply.status(500).send({ error: 'Server error' });
+    }
   });
 }
