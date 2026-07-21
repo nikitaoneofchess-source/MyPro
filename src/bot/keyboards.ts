@@ -11,7 +11,7 @@ export const coachKeyboard = new Keyboard()
 export const clientKeyboard = new Keyboard()
   .text('📅 Наступне тренування')
   .row()
-  .text('👨‍🏫 Мій тренер').text('❓ Допомога')
+  .text('👨‍🏫 Мій тренер').text('Допомога')
   .resized();
 
 // Інлайнова кнопка для підтвердження тренування
